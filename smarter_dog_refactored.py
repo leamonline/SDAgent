@@ -27,7 +27,10 @@ from pydantic import BaseModel, Field
 
 try:
     from agents import Agent, HostedMCPTool, Runner, function_tool  # type: ignore
-except ModuleNotFoundError:
+except (ModuleNotFoundError, TypeError):
+    # Fall back to stub if:
+    # - SDK not installed (ModuleNotFoundError)
+    # - Python < 3.10 (TypeError from union syntax)
     from agents_stub import Agent, HostedMCPTool, Runner, function_tool
 
 # Constants
